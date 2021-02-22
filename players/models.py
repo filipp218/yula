@@ -3,6 +3,7 @@ from datetime import date
 # Create your models here.
 
 class Team(models.Model):
+    """Модель на будущие цели"""
     name = models.CharField("Название команды" , max_length = 25, blank=False)
     url = models.SlugField(max_length=150, unique=True)
 
