@@ -14,6 +14,7 @@ class AllPlayers(View):
         return render(request, "players/main.html" , context)
 
     def post(self, request):
+        """Поиск игрока по фамалии и имени с учётом регистра"""
         query = request.POST['query']
         filter_players = Q()
         for word in query.split(' '):
@@ -23,17 +24,21 @@ class AllPlayers(View):
 
 
 def get_new_visitor_id():
+    """создаёт объект для нового посетителя и, чтобы добавить id к сессии куки"""
     return Visitor.objects.create().id
 
 def log_visit(visitor_id, player_id):
+    """создаёт объекты для записи visitora и игрока, чей профиль посетил"""
     return VisitHistory.objects.create(visitor_id=visitor_id, player_id=player_id).id
 
 def unique_counts(player):
+    """подсчитывает уникальных пользователей, DISTINCT не сработал с sqlite"""
     return VisitHistory.objects.filter(player=player).values('visitor').annotate(Count('player_id')).count()
 
 
 class ProfilePlayer(View):
     def get(self, request, slug):
+        """Страница профиля игрока"""
         if 'visitor_id' not in request.session:
             request.session['visitor_id'] = get_new_visitor_id()
         player = Player.objects.get(url=slug)
@@ -47,6 +52,7 @@ class ProfilePlayer(View):
 
 
     def post(self, request, slug):
+         """Комментарии"""
         form = CommentForm(request.POST, request.FILES)
         player = Player.objects.get(url=slug)
         new = form.save(commit=False)
