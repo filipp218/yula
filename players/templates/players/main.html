@@ -1,0 +1,38 @@
+{% extends 'players/base.html' %}
+ {% load static %}
+
+
+{% block title %}
+  Киберспорт
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Список команд</h1>
+  <form action="/search" method="post">
+    {% csrf_token %}
+    <div style =  width: 80%;">
+    <input type="text" name="query" value="{{query}}">
+    <button type="submit" class = "btn btn-primary">Найти</button>
+    </div>
+  </form>
+</div>
+
+<div class="container">
+  <div class="row">
+    {% for player in players%}
+      <div class="col-sm">
+        <div class="card" style="width: 18rem ;heigh: 14rem">
+            <img class="card-img-top" src="{% get_media_prefix %}{{player.photo}}" width="300" height="300" alt="{{player.photo}}">
+            <div class="card-body">
+                <h5 class="card-title">{{player.name}} {{player.lastname}} </h5>
+                <p class="card-text">{{player.description}}</p>
+                <p class="card-text"><small class="text-muted">{{player.date_of_born}}</small></p>
+                <a href="/{{player.url}}" class="btn btn-primary">Подробнее</a>
+            </div>
+        </div>
+      </div>
+    {%endfor%}
+  </div>
+</div>
+ {% endblock %}

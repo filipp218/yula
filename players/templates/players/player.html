@@ -1,0 +1,50 @@
+{% extends 'players/base.html' %}
+{% load static %}
+
+{% block title %}
+  {{player.name}}
+{% endblock %}
+
+{% block content %}
+
+  <div class="text-center">
+    <img src="{% get_media_prefix %}{{player.photo}}"  width="300" height="300" alt="{{player.photo}}">
+    <div class="card-body">
+    <h5 class="card-title">{{player.name}} {{player.lastname}}</h5>
+    <p class="card-text">
+      <a>Команда — {{player.team}}</a>
+      <br>
+      <a>Родился — {{player.date_of_born}}</a>
+      <br>
+      {{player.description}} </p>
+    <p class="card-text"><small class="text-muted"> Уникальных просмотров {{unique_visits}} </small></p>
+    </div>
+  </div>
+
+<div class="text-center">
+    <H4>Комментарии</H4>
+{% for comment in comments%}
+  <div class="card">
+    <div class="card-header">
+      Анонимный пользователь
+    </div>
+    <div class="card-body">
+      <blockquote class="blockquote mb-0">
+        <p>{{comment.text}}</p>
+        <footer class="blockquote-footer">{{comment.date}}</footer>
+      </blockquote>
+    </div>
+  </div>
+{%endfor%}
+
+      <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{new_comment.text}}
+      <button type="submit" class = "btn btn-primary">Оставить комментарий</button>
+      <br>
+      <br>
+      </form>
+  </div>
+
+
+{% endblock %}
