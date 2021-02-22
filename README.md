@@ -18,7 +18,7 @@ env\Scripts\activate
 ```
 - Склонируйте проект в вашу директорию
 ```
-git clone https://github.com/filipp218/ida.git
+git clone https://github.com/filipp218/yula.git
 ```
 - Установите все зависимосоти из файла requirements с помощью команды 
 ```
